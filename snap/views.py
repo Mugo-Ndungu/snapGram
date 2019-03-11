@@ -25,18 +25,6 @@ def about(request):
     return render(request, 'about.html', {'title': 'About'})
 
 
-# def register(request):
-#     if request.method == 'POST':
-#         form = SignUpForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             username = form.cleaned_data.get('username')
-#             messages.success(request, f'Your account has been created! Log in to get started')
-#             return redirect('login')
-#     else:
-#         form = SignUpForm()
-#     return render(request, 'registration/signup.html', {'form': form})
-
 @login_required
 def profile(request):
     return render(request,'profile.html')
