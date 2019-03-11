@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
+import django_heroku
 import os
 from decouple import config
 
@@ -145,3 +146,6 @@ EMAIL_PORT = 587
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'twinnymugo@gmail.com'
 EMAIL_HOST_PASSWORD = '0727774858'
+
+
+django_heroku.settings(locals())
