@@ -1,6 +1,6 @@
 # Snapgram
 
-## Snapgram is a web application that is meant to have users view image post and edit
+## Snapgram is a web application/Instagram clone that is meant to have users view image post and edit
 
 ### March 11th, 2019
 
