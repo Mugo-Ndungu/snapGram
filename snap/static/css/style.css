@@ -90,5 +90,8 @@ a.article-title:hover {
 .sticky {
   position: -webkit-sticky; /* Safari */
   position: sticky;
-  top: 5%;
+  top: 15%;
+}
+i{
+    font-size: 20px;
 }

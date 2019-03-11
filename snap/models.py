@@ -12,10 +12,26 @@ class Profile(models.Model):
     def __str__(self):
         return f'{self.user.username}Profile'
 
+    def save_profile(self):
+        self.save()
+
+    def delete_profile(self):
+        self.delete()
+
+
 class Post(models.Model):
     author = models.ForeignKey(User,related_name='post')
     photo = models.ImageField(upload_to='Posts_photos/')
     caption = models.CharField(max_length=60)
+
+    def __str__(self):
+        return self.post
+
+    def save_post(self):
+        self.save()
+
+    def delete_post(self):
+        self.delete()
 
 class Like(models.Model):
     post = models.ForeignKey(Post,related_name='liked_post')

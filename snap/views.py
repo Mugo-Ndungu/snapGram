@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from .forms import SignUpForm
+from .forms import SignUpForm, CreatePostForm
 from .models import Profile,Post
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
@@ -72,6 +72,19 @@ def activate(request, uidb64, token):
         return HttpResponse('<h4> Thank you for your email confirmation. To login to your account, <a href="/accounts/login">Click here .</a> </h4>')
     else:
         return HttpResponse('<h1 style = "color:red;"> Activation link is invalid! </h1>')
+
+
+class CreatePostView(
+):
+    model = Post
+    form_class = CreatePostForm
+    template_name = 'posts/post_form.html'
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.author = self.request.user
+        self.object.save()
+        return super(CreatePostView, self).form_valid(form)
 
 
 

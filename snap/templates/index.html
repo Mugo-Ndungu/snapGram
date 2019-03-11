@@ -14,10 +14,10 @@
 
 {% block content %}
 {% for post in post %}
-<div class="sticky" >
+<div>
 <p>{{post.author}}</p>
-<p>{{post.caption}}</p>
 <img src="{{post.photo.url}}" alt="">
+<p>{{post.caption}}</p>
 </div>
 {% endfor %}
 {% endblock %}
