@@ -25,7 +25,7 @@ class Post(models.Model):
     caption = models.CharField(max_length=60)
 
     def __str__(self):
-        return self.post
+        return self.author
 
     def save_post(self):
         self.save()

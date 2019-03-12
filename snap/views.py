@@ -4,7 +4,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from .forms import SignUpForm, CreatePostForm
-from .models import Profile,Post
+from .models import Profile, Post
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_text
@@ -17,8 +17,8 @@ from django.contrib import messages
 
 # Create your views here.
 def home(request):
-    post = Post.objects.all() 
-    return render(request, 'index.html',{'post':post})
+    post = Post.objects.all()
+    return render(request, 'index.html', {'post': post})
 
 
 def about(request):
@@ -27,7 +27,7 @@ def about(request):
 
 @login_required
 def profile(request):
-    return render(request,'profile.html')
+    return render(request, 'profile.html')
 
 
 def register(request):
@@ -74,17 +74,26 @@ def activate(request, uidb64, token):
         return HttpResponse('<h1 style = "color:red;"> Activation link is invalid! </h1>')
 
 
-class CreatePostView(
-):
-    model = Post
-    form_class = CreatePostForm
-    template_name = 'posts/post_form.html'
+# def create(request):
+#     model = Post
+#     form_class = CreatePostForm
+#     template_name = 'posts/post_form.html'
 
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.author = self.request.user
-        self.object.save()
-        return super(CreatePostView, self).form_valid(form)
-
+#     def form_valid(self, form):
+#         self.object = form.save(commit=False)
+#         self.object.author = self.request.user
+#         self.object.save()
+#         return super(CreatePostView, self).form_valid(form)
 
 
+def create(request):
+    current_user = request.user
+    if request.method == 'POST':
+        form = CreatePostForm(request.POST,request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = CreatePostForm()
+
+    return render(request, 'post_form.html', {"form": form})

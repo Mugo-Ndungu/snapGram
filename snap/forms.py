@@ -19,17 +19,5 @@ class SignUpForm(UserCreationForm):
 
 class CreatePostForm(forms.ModelForm):
     class Meta:
-        fields = ('author', 'photo', 'caption', )
         model = Post
-
-    def __init__(self, *args, **kwargs):
-
-        self.helper = FormHelper()
-        self.helper.layout = Layout(
-            'author'
-            'photo',
-            'caption',
-            Submit('post', 'Post', css_class='btn primary')
-        )
-
-
+        fields = ('author', 'photo', 'caption')
