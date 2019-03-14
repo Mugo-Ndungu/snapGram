@@ -5,9 +5,11 @@
 {% block content %}
 <form  method="post" enctype="multipart/form-data">
 {% csrf_token %}
-{% crispy form %}
 <div class="form-group">
-    <button class="btn btn-outline-info" type="submit">Post</button>
+{{form|crispy}}
+</div>
+<div class="form-group">
+    <input class="btn btn-outline-info" value="Post" type="submit">
 </div>
 </form>
 {% endblock %}

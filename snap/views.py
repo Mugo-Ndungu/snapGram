@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from .forms import SignUpForm, CreatePostForm
+from .forms import SignUpForm, CreatePostForm, UserUpdateForm, ProfileUpdateForm
 from .models import Profile, Post
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
@@ -74,26 +74,40 @@ def activate(request, uidb64, token):
         return HttpResponse('<h1 style = "color:red;"> Activation link is invalid! </h1>')
 
 
-# def create(request):
-#     model = Post
-#     form_class = CreatePostForm
-#     template_name = 'posts/post_form.html'
+def profile(request):
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(
+            request.POST, request.FILES, instance=request.user.profile)
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, f'Profile Updated!')
+            return redirect('profile')
 
-#     def form_valid(self, form):
-#         self.object = form.save(commit=False)
-#         self.object.author = self.request.user
-#         self.object.save()
-#         return super(CreatePostView, self).form_valid(form)
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+
+    context = {
+        'u_form': u_form,
+        'p_form': p_form
+    }
+
+    return render(request, 'profile.html', context)
 
 
 def create(request):
+
+
     current_user = request.user
+
+    form = CreatePostForm(request.POST, request.FILES)
     if request.method == 'POST':
-        form = CreatePostForm(request.POST,request.FILES)
+        form = CreatePostForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('home')
-    else:
-        form = CreatePostForm()
-
-    return render(request, 'post_form.html', {"form": form})
+            return redirect('index')
+        else:
+            form = CreatePostForm()
+    return render(request, 'post.html', {'form': form})
