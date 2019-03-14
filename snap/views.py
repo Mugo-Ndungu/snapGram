@@ -110,4 +110,4 @@ def create(request):
             return redirect('index')
         else:
             form = CreatePostForm()
-    return render(request, 'post.html', {'form': form})
+    return render(request, 'post_form.html', {'form': form})
